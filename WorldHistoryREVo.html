@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World History Quiz: Revolutions</title>
+    <style>
+        /* Styling for the quiz */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        #quiz-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #question-container {
+            margin-top: 20px;
+        }
+
+        .choice-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .choice-button:hover {
+            background: #0056b3;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 5px solid #ccc;
+        }
+
+        #next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #next-button:disabled {
+            background: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>World History Quiz: Revolutions</h1>
+        <div id="question-container"></div>
+        <button id="next-button">Next Question</button>
+        <div id="feedback"></div>
+    </div>
+    <script>
+        // JavaScript for quiz functionality
+        const questions = [
+            {
+                question: "What was the primary cause of the American Revolution?",
+                choices: [
+                    "High taxation without representation",
+                    "Conflict over slavery",
+                    "The Napoleonic Wars",
+                    "Religious persecution"
+                ],
+                correctAnswer: 0,
+                explanation: "The American Revolution was primarily caused by colonists' frustration with high taxes imposed by Britain without representation in Parliament."
+            },
+            {
+                question: "Which event symbolized the beginning of the French Revolution?",
+                choices: [
+                    "The signing of the Declaration of Independence",
+                    "The storming of the Bastille",
+                    "The Industrial Revolution",
+                    "The rise of Napoleon"
+                ],
+                correctAnswer: 1,
+                explanation: "The storming of the Bastille on July 14, 1789, symbolized the beginning of the French Revolution and the people's revolt against the monarchy."
+            },
+            {
+                question: "Which invention played a key role in the Industrial Revolution?",
+                choices: [
+                    "The printing press",
+                    "The steam engine",
+                    "The telescope",
+                    "The spinning wheel"
+                ],
+                correctAnswer: 1,
+                explanation: "The steam engine revolutionized transportation and manufacturing, playing a central role in the Industrial Revolution."
+            },
+            {
+                question: "What was the significance of the Haitian Revolution?",
+                choices: [
+                    "It marked the first successful slave revolt",
+                    "It established the first democracy in Latin America",
+                    "It ended European colonialism in the Caribbean",
+                    "It was a key event in the American Revolution"
+                ],
+                correctAnswer: 0,
+                explanation: "The Haitian Revolution (1791-1804) was the first successful slave revolt and led to the establishment of Haiti as an independent nation."
+            },
+            {
+                question: "What was a major outcome of the Latin American revolutions in the 19th century?",
+                choices: [
+                    "The abolition of slavery worldwide",
+                    "The end of Spanish colonial rule in Latin America",
+                    "The rise of absolute monarchies in Europe",
+                    "The formation of the United States"
+                ],
+                correctAnswer: 1,
+                explanation: "The Latin American revolutions ended Spanish colonial rule and led to the independence of countries across South and Central America."
+            },
+            {
+                question: "Who was the leader of the Reign of Terror during the French Revolution?",
+                choices: [
+                    "Louis XVI",
+                    "Maximilien Robespierre",
+                    "Napoleon Bonaparte",
+                    "Jean-Jacques Rousseau"
+                ],
+                correctAnswer: 1,
+                explanation: "Maximilien Robespierre led the Reign of Terror (1793-1794), a period marked by mass executions of perceived enemies of the revolution."
+            },
+            {
+                question: "Which ideology was a driving force behind the unification of Germany and Italy in the 19th century?",
+                choices: [
+                    "Socialism",
+                    "Nationalism",
+                    "Imperialism",
+                    "Feudalism"
+                ],
+                correctAnswer: 1,
+                explanation: "Nationalism inspired the unification of Germany and Italy by promoting the idea of shared culture, language, and heritage."
+            },
+            {
+                question: "What event ended the Napoleonic Wars and reshaped Europe?",
+                choices: [
+                    "The Congress of Vienna",
+                    "The Treaty of Versailles",
+                    "The Industrial Revolution",
+                    "The American Civil War"
+                ],
+                correctAnswer: 0,
+                explanation: "The Congress of Vienna (1815) ended the Napoleonic Wars and redrew the map of Europe to restore balance of power."
+            },
+            {
+                question: "Which economic system emerged during the Industrial Revolution?",
+                choices: [
+                    "Capitalism",
+                    "Feudalism",
+                    "Mercantilism",
+                    "Socialism"
+                ],
+                correctAnswer: 0,
+                explanation: "Capitalism emerged during the Industrial Revolution, emphasizing private ownership and free-market competition."
+            },
+            {
+                question: "What was the goal of the American Declaration of Independence?",
+                choices: [
+                    "To declare freedom from British rule",
+                    "To establish a monarchy",
+                    "To end the French Revolution",
+                    "To promote global democracy"
+                ],
+                correctAnswer: 0,
+                explanation: "The Declaration of Independence, adopted on July 4, 1776, declared the American colonies' freedom from British rule."
+            },
+            {
+    question: "What document marked the start of the French Revolution?",
+    choices: [
+        "Declaration of Independence",
+        "Declaration of the Rights of Man and of the Citizen",
+        "Magna Carta",
+        "The Communist Manifesto"
+    ],
+    correctAnswer: 1,
+    explanation: "The Declaration of the Rights of Man and of the Citizen (1789) was a foundational document that emphasized liberty, equality, and fraternity during the French Revolution."
+},
+{
+    question: "What was a direct result of the American Revolution?",
+    choices: [
+        "The establishment of a monarchy in America",
+        "The creation of the United States Constitution",
+        "The abolition of slavery",
+        "The Industrial Revolution"
+    ],
+    correctAnswer: 1,
+    explanation: "The American Revolution led to the drafting of the U.S. Constitution in 1787, which established the framework for the new government."
+},
+{
+    question: "Which revolution was inspired by Enlightenment ideas?",
+    choices: [
+        "The French Revolution",
+        "The Russian Revolution",
+        "The Agricultural Revolution",
+        "The Industrial Revolution"
+    ],
+    correctAnswer: 0,
+    explanation: "The French Revolution was deeply influenced by Enlightenment ideas, including liberty, equality, and the rejection of absolute monarchy."
+},
+{
+    question: "Who was the leader of the independence movement in South America?",
+    choices: [
+        "Simon Bolivar",
+        "Napoleon Bonaparte",
+        "Maximilien Robespierre",
+        "George Washington"
+    ],
+    correctAnswer: 0,
+    explanation: "Simón Bolívar, known as 'The Liberator,' led movements for independence in several South American countries, including Venezuela and Colombia."
+},
+{
+    question: "What was one major outcome of the Industrial Revolution?",
+    choices: [
+        "Decline of urban populations",
+        "Increased factory-based production",
+        "End of colonialism",
+        "A return to agrarian economies"
+    ],
+    correctAnswer: 1,
+    explanation: "The Industrial Revolution transformed economies with factory-based production, urbanization, and technological advancements."
+},
+{
+    question: "What event ended Napoleon's reign in France?",
+    choices: [
+        "The Congress of Vienna",
+        "The Battle of Waterloo",
+        "The Storming of the Bastille",
+        "The Treaty of Paris"
+    ],
+    correctAnswer: 1,
+    explanation: "Napoleon was defeated at the Battle of Waterloo in 1815, marking the end of his rule and his final exile to Saint Helena."
+},
+{
+    question: "Which industry was the first to be transformed by the Industrial Revolution?",
+    choices: [
+        "Agriculture",
+        "Textiles",
+        "Transportation",
+        "Steel"
+    ],
+    correctAnswer: 1,
+    explanation: "The textile industry was the first to be transformed during the Industrial Revolution, with innovations such as the spinning jenny and power loom."
+},
+{
+    question: "What role did nationalism play in 19th-century revolutions?",
+    choices: [
+        "It encouraged loyalty to monarchies",
+        "It inspired movements for independence and unification",
+        "It reduced conflicts between nations",
+        "It supported colonial rule"
+    ],
+    correctAnswer: 1,
+    explanation: "Nationalism inspired revolutions for independence and the unification of countries such as Italy and Germany in the 19th century."
+},
+{
+    question: "Which country experienced the Meiji Restoration?",
+    choices: [
+        "China",
+        "India",
+        "Japan",
+        "Korea"
+    ],
+    correctAnswer: 2,
+    explanation: "The Meiji Restoration (1868) in Japan marked a period of rapid modernization and industrialization as the country embraced Western technology and governance."
+},
+{
+    question: "What caused the Haitian Revolution?",
+    choices: [
+        "A desire for independence from Spain",
+        "A slave revolt against French colonial rule",
+        "Conflict over religious freedoms",
+        "Support from the United States"
+    ],
+    correctAnswer: 1,
+    explanation: "The Haitian Revolution (1791-1804) was a slave revolt against French colonial rule, resulting in the first independent Black republic."
+},
+{
+    question: "Which European country was first to abolish slavery in its colonies?",
+    choices: [
+        "France",
+        "Spain",
+        "Portugal",
+        "Britain"
+    ],
+    correctAnswer: 3,
+    explanation: "Britain was the first European country to abolish slavery in its colonies through the Slavery Abolition Act of 1833."
+},
+{
+    question: "What was the primary economic system during the Industrial Revolution?",
+    choices: [
+        "Capitalism",
+        "Feudalism",
+        "Socialism",
+        "Mercantilism"
+    ],
+    correctAnswer: 0,
+    explanation: "The Industrial Revolution was driven by capitalism, which emphasized private ownership and free-market economies."
+},
+{
+    question: "Who led the independence movement in India during the 19th century?",
+    choices: [
+        "Mohandas Gandhi",
+        "Rani Lakshmibai",
+        "Jawaharlal Nehru",
+        "Bal Gangadhar Tilak"
+    ],
+    correctAnswer: 3,
+    explanation: "Bal Gangadhar Tilak was a prominent leader in India's independence movement during the late 19th century."
+},
+{
+    question: "Which event sparked the Latin American revolutions?",
+    choices: [
+        "The fall of Napoleon",
+        "The American and French Revolutions",
+        "The Industrial Revolution",
+        "The Enlightenment"
+    ],
+    correctAnswer: 1,
+    explanation: "The American and French Revolutions inspired Latin American colonies to fight for independence from European powers."
+},
+{
+    question: "What key document was signed at the Congress of Vienna?",
+    choices: [
+        "The Treaty of Paris",
+        "The Declaration of Independence",
+        "The Final Act",
+        "The Treaty of Versailles"
+    ],
+    correctAnswer: 2,
+    explanation: "The Congress of Vienna concluded with the signing of the Final Act, which redrew Europe's borders and restored balance of power."
+},
+{
+    question: "What did the Zollverein achieve in Germany?",
+    choices: [
+        "It unified Germany under one empire",
+        "It created a customs union among German states",
+        "It abolished feudalism in Prussia",
+        "It declared independence from Austria"
+    ],
+    correctAnswer: 1,
+    explanation: "The Zollverein created a customs union that removed trade barriers between German states, fostering economic unity."
+},
+{
+    question: "Which philosopher’s ideas influenced the American Revolution?",
+    choices: [
+        "Karl Marx",
+        "John Locke",
+        "Voltaire",
+        "Jean-Jacques Rousseau"
+    ],
+    correctAnswer: 1,
+    explanation: "John Locke's ideas on natural rights and the social contract inspired the American Revolution."
+},
+{
+    question: "What was the goal of the Chartist movement in Britain?",
+    choices: [
+        "To promote universal suffrage",
+        "To abolish slavery",
+        "To industrialize rural areas",
+        "To expand the British Empire"
+    ],
+    correctAnswer: 0,
+    explanation: "The Chartist movement in the 19th century sought universal suffrage and political reform for working-class men."
+},
+{
+    question: "What role did the steam engine play in the Industrial Revolution?",
+    choices: [
+        "It revolutionized textile production",
+        "It powered factories and transportation",
+        "It mechanized agriculture",
+        "It improved communication"
+    ],
+    correctAnswer: 1,
+    explanation: "The steam engine powered factories, trains, and ships, becoming a cornerstone of industrialization."
+},
+{
+    question: "Which event marked the unification of Italy?",
+    choices: [
+        "The Treaty of Paris",
+        "The Congress of Vienna",
+        "The Capture of Rome",
+        "The Declaration of Independence"
+    ],
+    correctAnswer: 2,
+    explanation: "The Capture of Rome in 1870 completed Italy's unification under King Victor Emmanuel II."
+},
+{
+    question: "What was the purpose of the Monroe Doctrine?",
+    choices: [
+        "To protect European colonial interests",
+        "To prevent further colonization in the Americas",
+        "To promote trade with Asia",
+        "To establish the United Nations"
+    ],
+    correctAnswer: 1,
+    explanation: "The Monroe Doctrine (1823) warned European powers against further colonization in the Western Hemisphere."
+},
+{
+    question: "Who led the independence movement in Mexico?",
+    choices: [
+        "Simón Bolívar",
+        "José de San Martín",
+        "Miguel Hidalgo",
+        "Toussaint Louverture"
+    ],
+    correctAnswer: 2,
+    explanation: "Miguel Hidalgo initiated Mexico's independence movement in 1810 with his 'Grito de Dolores' speech."
+}
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionContainer = document.getElementById("question-container");
+        const feedbackContainer = document.getElementById("feedback");
+        const nextButton = document.getElementById("next-button");
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            questionContainer.innerHTML = `
+                <h2>${question.question}</h2>
+                ${question.choices.map((choice, index) => `
+                    <button class="choice-button" data-choice="${index}">${choice}</button>
+                `).join('')}
+            `;
+            feedbackContainer.innerHTML = "";
+            nextButton.style.display = "none";
+
+            const choiceButtons = document.querySelectorAll(".choice-button");
+            choiceButtons.forEach(button => {
+                button.addEventListener("click", (e) => {
+                    const userAnswer = parseInt(e.target.getAttribute("data-choice"));
+                    checkAnswer(userAnswer);
+                });
+            });
+        }
+
+        function checkAnswer(userAnswer) {
+            const question = questions[currentQuestion];
+            const isCorrect = userAnswer === question.correctAnswer;
+            feedbackContainer.innerHTML = `
+                <p>${isCorrect ? "Correct!" : "Incorrect."}</p>
+                <p>${isCorrect ? "" : `The correct answer is: ${question.choices[question.correctAnswer]}`}</p>
+                <p>${question.explanation}</p>
+            `;
+            if (isCorrect) score++;
+            nextButton.style.display = "block";
+
+            // Disable buttons after selecting an answer
+            const choiceButtons = document.querySelectorAll(".choice-button");
+            choiceButtons.forEach(button => button.disabled = true);
+        }
+
+        nextButton.addEventListener("click", () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                questionContainer.innerHTML = `
+                    <h2>Quiz Complete!</h2>
+                    <p>Your Score: ${score} / ${questions.length}</p>
+                `;
+                nextButton.style.display = "none";
+            }
+        });
+
+        // Load the first question on startup
+        loadQuestion();
+    </script>
+</body>
+</html>
